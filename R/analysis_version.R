@@ -1,9 +1,17 @@
 gonz.conf <- function(x=NULL, as.char=FALSE) {
-  conf <- gonz.read_conf(files="gonz.conf.yml")
-
+  conf.file <- "gonz.conf.yml"
   conf.av.file <- paste(gonz.analysis_version(), "conf", "yml", collapse=".", sep=".")
+  gonz.log <- gonz.getlog()
+  conf <- list()
+
+  if(file.exists(conf.file)) {
+    conf <- gonz.read_conf(files=conf.file)
+    gonz.log("info",paste0("reading >>", conf.file, "<<", collapse=" "))
+  }
+
   if(file.exists(conf.av.file)) {
     conf.av <- gonz.read_conf(files=conf.av.file)
+    gonz.log("info",paste0("reading >>", conf.av.file, "<<", collapse=" "))
     conf <- .merge.list.excl(conf,conf.av)
   }
 
@@ -21,20 +29,19 @@ gonz.conf <- function(x=NULL, as.char=FALSE) {
     classes="character"
   )
 
-  gonz.log <- gonz.getlog()
-    if(is.null(x)) {
-        gonz.log("info", "(conf) dump")
-        .str2av(conf)
-        return(conf)
-    } else if(as.char) {
-        dtmp <- as.character(conf[[x]])
-        gonz.log("info", paste0("(conf) >", x, "<", collapse=" "), dtmp)
-        return(dtmp)
-    } else {
-        gonz.log("info", paste0("(conf) >", x, "<", collapse=" "))
-        .str2av(conf[[x]])
-        return(conf[[x]])
-    }
+  if(is.null(x)) {
+    gonz.log("info", "(conf) dump")
+    .str2av(conf)
+    return(conf)
+  } else if(as.char) {
+    dtmp <- as.character(conf[[x]])
+    gonz.log("info", paste0("(conf) >", x, "<", collapse=" "), dtmp)
+    return(dtmp)
+  } else {
+    gonz.log("info", paste0("(conf) >", x, "<", collapse=" "))
+    .str2av(conf[[x]])
+    return(conf[[x]])
+  }
 }
 
 gonz.analysis_version <- function() {
