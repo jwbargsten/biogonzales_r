@@ -1,9 +1,9 @@
 gonz.conf <- function(x=NULL, as.char=FALSE) {
-  conf <- gonz.read_conf(files=c("gonz.conf.yml"))
+  conf <- gonz.read_conf(files="gonz.conf.yml")
 
   conf.av.file <- paste(gonz.analysis_version(), "conf", "yml", collapse=".", sep=".")
   if(file.exists(conf.av.file)) {
-    conf.av <- gonz.read_conf(files=)
+    conf.av <- gonz.read_conf(files=conf.av.file)
     conf <- .merge.list.excl(conf,conf.av)
   }
 
