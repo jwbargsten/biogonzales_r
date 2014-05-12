@@ -30,16 +30,14 @@ gonz.conf <- function(x=NULL, as.char=FALSE) {
   )
 
   if(is.null(x)) {
-    gonz.log("info", "(conf) dump")
-    .str2av(conf)
+    gonz.log("info", "(conf) dump\n", .str2av(conf))
     return(conf)
   } else if(as.char) {
     dtmp <- as.character(conf[[x]])
     gonz.log("info", paste0("(conf) >", x, "<", collapse=" "), dtmp)
     return(dtmp)
   } else {
-    gonz.log("info", paste0("(conf) >", x, "<", collapse=" "))
-    .str2av(conf[[x]])
+    gonz.log("info", paste0("(conf) >", x, "<", collapse=" "), .str2av(conf[[x]]))
     return(conf[[x]])
   }
 }

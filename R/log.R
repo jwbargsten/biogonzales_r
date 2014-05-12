@@ -1,9 +1,10 @@
 .log.print <- function(file, level, namespace, ...) {
+  data <- unlist(lapply(list(...), function(x) { paste0(x, collapse="\n") }))
   cat(
       "[", format(Sys.time()), "] ",
       "[", toupper(level), "] ",
       ifelse(is.null(namespace), "", paste0(namespace, ": ", collapse="")),
-      paste(..., collapse="\n", sep="\n"), "\n",
+      paste0(data, collapse="\n"), "\n",
       file=file,
       append=TRUE,
       sep=""
@@ -44,7 +45,5 @@ gonz.getlog <- function() {
 
 .str2av <- function(data) {
   av <- gonz.analysis_version()
-  sink(file.path(av, "gonz.log"), append=TRUE)
-  str(data)
-  sink()
+  paste0("  ", capture.output(str(data)), collapse="\n")
 }
