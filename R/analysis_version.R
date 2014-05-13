@@ -19,6 +19,9 @@ gonz.conf <- function(x=NULL, as.char=FALSE) {
     function(x) { 
       project_dir <- file.path("..","..") #TODO this is a cheap version of finding the root, do something more sophisticated
 
+      if(grepl("^~[^/]*/", x))
+        x <- path.expand(x)
+
       x <- gsub("__av__", gonz.analysis_version(), x, fixed=TRUE) 
       x <- gsub("__path_to\\(([^)]+)\\)__", file.path(project_dir, "\\1"), x) 
       x <- gsub("__data__", file.path(project_dir, "data"), x, fixed=TRUE) 
