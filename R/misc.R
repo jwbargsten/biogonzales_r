@@ -42,6 +42,18 @@ gonz.lsos <- function(..., n=10) {
   .ls.objects(..., order.by="Size", decreasing=TRUE, head=TRUE, n=n)
 }
 
+gonz.getopt <- function(..., opt=commandArgs(TRUE)) {
+  opt_end <- which(opt == "--")[1]
+  if(is.na(opt_end)) {
+    args <- c()
+  } else {
+    args <- tail(opt, -opt_end)
+    opt <- head(opt, -opt_end)
+  }
+  parsed_opt <- getopt(..., opt=opt)
+  parsed_opt$args <-args
+  parsed_opt
+}
 
 
 # STOLEN FROM THE RESHAPE PACKAGE, CREDITS GO TO HADLEY WICKHAM

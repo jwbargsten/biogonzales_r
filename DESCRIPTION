@@ -7,5 +7,5 @@ Author: Joachim Bargsten
 Maintainer: Joachim Bargsten <wissenschaft@bargsten.org>
 Description: This package contains function to facilitate the development process for scientists
 License: MIT
-Depends: methods, yaml, grid, rjson
+Depends: methods, yaml, grid, rjson, getopt
 LazyLoad: yes
