@@ -44,13 +44,20 @@ gonz.lsos <- function(..., n=10) {
 
 gonz.getopt <- function(..., opt=commandArgs(TRUE)) {
   opt_end <- which(opt == "--")[1]
-  if(is.na(opt_end)) {
+  parsed_opt <- list()
+  if(is.na(opt_end) && grepl("^--?\\w+", opt[1])[1]) {
+    ## this script was called to use getopt functionality (first arg starts with "-")
     args <- c()
+    parsed_opt <- getopt(..., opt=opt)
+  } else if(is.na(opt_end) && !grepl("^--?\\w+", opt[1])[1]) {
+    ## this script was called to use plain args
+    args <- opt
   } else {
+    ## this script was called to use plain args AND getopt functionality
     args <- tail(opt, -opt_end)
-    opt <- head(opt, -opt_end)
+    opt <- head(opt, opt_end-1)
+    parsed_opt <- getopt(..., opt=opt)
   }
-  parsed_opt <- getopt(..., opt=opt)
   parsed_opt$args <-args
   parsed_opt
 }
