@@ -16,15 +16,21 @@ gonz.conf <- function(x=NULL, as.char=FALSE) {
   }
 
   conf <- rapply(conf,
-    function(x) { 
-      project_dir <- file.path("..","..") #TODO this is a cheap version of finding the root, do something more sophisticated
+    function(x) {
+      project_dir <- .find_root(getwd())
 
-      if(grepl("^~[^/]*/", x))
-        x <- path.expand(x)
+      x <- ifelse(grepl("^~[^/]*/", x), path.expand(x), x)
 
-      x <- gsub("__av__", gonz.analysis_version(), x, fixed=TRUE) 
-      x <- gsub("__path_to\\(([^)]+)\\)__", file.path(project_dir, "\\1"), x) 
-      x <- gsub("__data__", file.path(project_dir, "data"), x, fixed=TRUE) 
+      x <- gsub("__av__", gonz.analysis_version(), x, fixed=TRUE)
+      if(any(grepl("__path_to\\(([^)]+)\\)__", x) | grepl("__data__", x))) {
+        if(is.null(project_dir)) {
+          stop("could not find project dir")
+        } else {
+          gonz.log("info",paste0("project dir >>", project_dir, "<<", collapse=" "))
+          x <- gsub("__path_to\\(([^)]+)\\)__", file.path(project_dir, "\\1"), x)
+          x <- gsub("__data__", file.path(project_dir, "data"), x, fixed=TRUE)
+        }
+      }
 
       x
     },
@@ -69,8 +75,15 @@ gonz.nfi <- function(...) {
   f
 }
 
+.file.path.collapse <- function(x) {
+  paste0(x, collapse=.Platform$file.sep)
+}
+
 gonz.read_conf <- function(files) {
-  filename <- files[which(unlist(lapply(files, file.exists)))[1]]
+  candidates <- unlist(lapply(files, file.exists))
+  if(is.null(candidates) || all(!candidates))
+    stop("configuration file NOT found")
+  filename <- files[which(candidates)[1]]
 
   if(is.na(filename))
     stop("no existing file supplied")
@@ -111,13 +124,26 @@ gonz.read_conf <- function(files) {
     return(as.list(x))
   } else {
     y <- as.list(y)
-    
+
     names.uniq.x <- ! names(x) %in% names(y)
-  
+
     c(y, x[names.uniq.x])
   }
 }
- 
+
+.find_root <- function(dir) {
+  dir <- strsplit(dir, split="/")[[1]]
+  root <- NULL
+
+  while(length(dir) > 1) {
+    if(file.exists(.file.path.collapse(c(dir, "analysis"))) && file.exists(.file.path.collapse(c(dir, "Makefile"))) && file.exists(.file.path.collapse(c(dir, ".git")))) {
+      root <- dir
+      break
+    }
+    dir <- head(dir,-1)
+  }
+  .file.path.collapse(root)
+}
 
 gonz.av <- gonz.analysis_version
 gonz.c <- gonz.conf
