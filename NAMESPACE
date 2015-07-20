@@ -4,6 +4,7 @@ import(
     yaml,
     Hmisc,
     grid,
-    getopt
+    getopt,
+    scales
 )
 
