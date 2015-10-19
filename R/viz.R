@@ -30,18 +30,23 @@ gg_annotate_boxplot_outliers <- function(g, data,
 
   lvls <- unique(levels(data[,group.var])[data[,group.var]])
   data <- data[is.finite(data[,value.var]),]
-  outlier_labels <- gonz.merge_recurse(
-    lapply(seq_along(lvls), function(i) {
-      data.group <- data[data[,group.var]==lvls[i],] 
+  outlier_labels_list <-  lapply(seq_along(lvls), function(i) {
+      data.group <- data[data[,group.var]==lvls[i],]
       if(length(gb$outliers[[i]]) == 0)
         return(NULL)
-      
+      data.group[data.group[,value.var] %in% gb$outliers[[i]], label.var]
       data.frame( x=i, y=gb$outliers[[i]], label=data.group[data.group[,value.var] %in% gb$outliers[[i]], label.var])
-  }))
-  #browser()
-  if(nrow(outlier_labels) > 0) {
+  })
+  outlier_labels <- NULL
+  if(length(outlier_labels_list) == 1) {
+    outlier_labels <- outlier_labels_list[[1]]
+  } else {
+    outlier_labels <- rbindlist(outlier_labels_list)
+  }
+
+  if(!is.null(outlier_labels) && nrow(outlier_labels) > 0) {
     outlier_labels$pos <- ifelse(seq(1,nrow(outlier_labels)) %% 2 == 0, -0.1, 1.1)
     g <- g + annotate("text", x=outlier_labels$x, y=outlier_labels$y, label=outlier_labels$label, hjust=outlier_labels$pos, ...)
-  }
+  } 
   g
-}
+} 
