@@ -5,6 +5,8 @@ import(
     Hmisc,
     grid,
     getopt,
-    scales
+    scales,
+    reshape2,
+    ggplot2
 )
 
