@@ -21,10 +21,6 @@
 # SOFTWARE.
 
 
-library(XML)
-library(plyr)
-library(pbapply)
-
 xlsxToR <- function(file, keep_sheets = NULL, header = FALSE) {
   
   temp_dir <- file.path(tempdir(), "xlsxToRtemp")
