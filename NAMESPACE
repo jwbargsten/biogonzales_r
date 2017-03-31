@@ -1,4 +1,4 @@
-exportPattern("^[^\\.]")
+exportPattern("^[[:alpha:]]+")
 import(
     methods,
     yaml,
@@ -7,6 +7,8 @@ import(
     getopt,
     scales,
     reshape2,
-    ggplot2
+    ggplot2,
+    XML,
+    plyr,
+    pbapply
 )
-

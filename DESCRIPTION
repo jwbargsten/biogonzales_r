@@ -1,11 +1,11 @@
 Package: BioGonzales
 Type: Package
 Title: Handy function collection to speed up your work
-Version: 0.1
-Date: 2012-04-02
+Version: 0.2
+Date: 2017-03-31
 Author: Joachim Bargsten
 Maintainer: Joachim Bargsten <wissenschaft@bargsten.org>
 Description: This package contains function to facilitate the development process for scientists
 License: MIT
-Depends: methods, yaml, grid, rjson, getopt, scales, ggplot2, reshape2
+Imports: methods, yaml, grid, rjson, getopt, scales, ggplot2, reshape2, XML, plyr, pbapply
 LazyLoad: yes
