@@ -32,7 +32,7 @@ theme_blank_jwb <- function() {
               #axis.ticks=element_blank(),
               #axis.title.x=element_blank(),
               #axis.title.y=element_blank(),
-              legend.position="none",
+              #legend.position="none",
               panel.background=element_blank(),
               panel.border=element_blank(),
               #panel.grid.major=element_blank(),
@@ -46,18 +46,17 @@ theme_blank_jwb <- function() {
               #axis.ticks.margin = unit(0.2, "lines")
               )
 }
-z <- gonz.merge_all(list(d.hsa, d.sce, d.ath))
 
-graphics.off()
-pdf(gonz.nfi("nw_degree_hist.pdf"), width=7, height=2)
-  gp <- ggplot(z, aes(x=g.degree)) +
-      geom_histogram(binwidth=0.2) +
-      scale_x_log10() +
-      xlab("degree") +
-      ylab("no. of nodes") +
-      scale_y_continuous(trans=log10s1_trans()) +
-      theme_bw() + theme_blank_jwb() + facet_wrap(~ species) #+ 
-  #gp <- ggplot(k, aes(x=g.degree)) + geom_histogram(binwidth=70) +   xlab(tag)
-  gp
-dev.off()
+#graphics.off()
+#pdf(gonz.nfi("nw_degree_hist.pdf"), width=7, height=2)
+  #gp <- ggplot(z, aes(x=g.degree)) +
+      #geom_histogram(binwidth=0.2) +
+      #scale_x_log10() +
+      #xlab("degree") +
+      #ylab("no. of nodes") +
+      #scale_y_continuous(trans=log10s1_trans()) +
+      #theme_bw() + theme_blank_jwb() + facet_wrap(~ species) #+ 
+  ##gp <- ggplot(k, aes(x=g.degree)) + geom_histogram(binwidth=70) +   xlab(tag)
+  #gp
+#dev.off()
 
