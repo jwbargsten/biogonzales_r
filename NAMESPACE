@@ -2,7 +2,6 @@ exportPattern("^[[:alpha:]]+")
 import(
     methods,
     yaml,
-    Hmisc,
     grid,
     getopt,
     scales,
@@ -10,5 +9,6 @@ import(
     ggplot2,
     XML,
     plyr,
+    Hmisc,
     pbapply
 )
