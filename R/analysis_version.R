@@ -115,6 +115,8 @@ gonz.read_conf <- function(files) {
 
   }
   rm(raw)
+  if(is.null(data))
+    data <- list()
   return(data)
 }
 
