@@ -95,7 +95,7 @@ gonz.merge_recurse <- function(dfs, ...) {
 }
 
 gonz.script_path <- function() {
-  path <- try(supressWarnings(sys.frame(1)$ofile))
+  path <- try(suppressWarnings(sys.frame(1)$ofile))
   if(class(path) == 'try-error') {
     path <- grep("^--file=",commandArgs(), value=TRUE)
     if(length(path) > 0) {
@@ -108,5 +108,5 @@ gonz.script_path <- function() {
 }
 
 gonz.script_dir <- function() {
-  dirname(gonz.script_path)
+  dirname(gonz.script_path())
 }
