@@ -95,12 +95,18 @@ gonz.merge_recurse <- function(dfs, ...) {
 }
 
 gonz.script_path <- function() {
-  ns <- grep("^--file=",commandArgs(), value=TRUE)
-  if(length(ns) > 0) {
-    ns <- sub("^--file=", "", ns)
-    ns <- basename(ns)
-  } else {
-    ns <- NA
+  path <- try(supressWarnings(sys.frame(1)$ofile))
+  if(class(path) == 'try-error') {
+    path <- grep("^--file=",commandArgs(), value=TRUE)
+    if(length(path) > 0) {
+      path <- sub("^--file=", "", path)
+    } else {
+      path <- NA
+    }
   }
-  ns
+  path
+}
+
+gonz.script_dir <- function() {
+  dirname(gonz.script_path)
 }
