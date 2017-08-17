@@ -93,3 +93,14 @@ gonz.merge_recurse <- function(dfs, ...) {
     merge(dfs[[1]], Recall(dfs[-1]), all=TRUE, sort=FALSE, ...)
   }
 }
+
+gonz.script_path <- function() {
+  ns <- grep("^--file=",commandArgs(), value=TRUE)
+  if(length(ns) > 0) {
+    ns <- sub("^--file=", "", ns)
+    ns <- basename(ns)
+  } else {
+    ns <- NA
+  }
+  ns
+}
