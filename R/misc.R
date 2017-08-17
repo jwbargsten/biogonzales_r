@@ -94,19 +94,35 @@ gonz.merge_recurse <- function(dfs, ...) {
   }
 }
 
-gonz.script_path <- function() {
+gonz.source_path <- function() {
   path <- try(suppressWarnings(sys.frame(1)$ofile))
   if(class(path) == 'try-error') {
-    path <- grep("^--file=",commandArgs(), value=TRUE)
-    if(length(path) > 0) {
-      path <- sub("^--file=", "", path)
-    } else {
-      path <- NA
-    }
+    path <- NA
+  }
+  path
+}
+gonz.script_path <- function() {
+  path <- grep("^--file=",commandArgs(), value=TRUE)
+  if(length(path) > 0) {
+    path <- sub("^--file=", "", path)
+  } else {
+    path <- NA
   }
   path
 }
 
 gonz.script_dir <- function() {
-  dirname(gonz.script_path())
+  path <- gonz.script_path()
+  if(is.na(path))
+    NA
+  else
+    dirname(path)
+}
+
+gonz.source_dir <- function() {
+  path <- gonz.source_path()
+  if(is.na(path))
+    NA
+  else
+    dirname(path)
 }
