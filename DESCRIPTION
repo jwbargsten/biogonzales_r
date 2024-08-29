@@ -7,5 +7,5 @@ Author: Joachim Bargsten
 Maintainer: Joachim Bargsten <wissenschaft@bargsten.org>
 Description: This package contains function to facilitate the development process for scientists
 License: MIT
-Imports: methods, yaml, grid, rjson, getopt, scales, ggplot2, reshape2, XML, plyr, pbapply
+Imports: methods, yaml, grid, rjson, getopt, scales, ggplot2, reshape2, plyr, pbapply
 LazyLoad: yes

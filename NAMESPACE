@@ -3,12 +3,11 @@ import(
     methods,
     yaml,
     grid,
+    rjson,
     getopt,
     scales,
     reshape2,
     ggplot2,
-    XML,
     plyr,
-    Hmisc,
     pbapply
 )

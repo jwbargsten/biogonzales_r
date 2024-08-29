@@ -6,7 +6,8 @@
 }
 
 .abs2rel <- function(p, base) {
-  sub(base, "", p, fixed=TRUE)
+  rel <- if(is.na(base)) p else sub(base, "", p, fixed=TRUE)
+  sub("^/", "", rel)
 }
 
 .find_root <- function(start, req) {
@@ -30,7 +31,10 @@
 }
 
 gonz.project_root <- function() .find_root(".", .required_project_files)
-gonz.analysis_root <- function() .find_root(".", .required_av_files)
+gonz.analysis_root <- function() {
+  root <- .find_root(".", .required_av_files)
+  if(is.na(root)) "." else root
+}
 
 gonz.analysis_version <- function() {
   av <- NULL
@@ -41,8 +45,7 @@ gonz.analysis_version <- function() {
   } else if(file.exists(av.src)) {
     av <- as.character(read.table(av.src, as.is=TRUE)[1,1])
   } else {
-    warning("could not find the analysis version file")
-    warning("using current dir as output dir")
+    warning("could not find the analysis version file, using current dir as output dir")
     av <- "."
   }
   av
@@ -55,9 +58,14 @@ gonz.analysis_path <- function() {
   av.path
 }
 
+.str2av <- function(data) {
+  av <- gonz.analysis_version()
+  paste0("  ", capture.output(str(data)), collapse="\n")
+}
+
 gonz.conf <- function(x=NULL, as.char=FALSE) {
-  conf.file <- "gonz.conf.yml"
-  conf.av.file <- paste(gonz.analysis_path(), "conf", "yml", collapse=".", sep=".")
+  conf.file <- file.path(gonz.analysis_root(), "gonz.conf.yml")
+  conf.av.file <- file.path(gonz.analysis_root(), paste(gonz.analysis_version(), "conf", "yml", collapse=".", sep="."))
   gonz.log <- gonz.getlog()
   conf <- list()
 
@@ -172,5 +180,7 @@ gonz.read_conf <- function(files) {
 
 
 gonz.av <- gonz.analysis_version
+gonz.av_path <- gonz.analysis_path
+gonz.av_root <- gonz.analysis_root
 gonz.c <- gonz.conf
 gonz.config <- gonz.conf
